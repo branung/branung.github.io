@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LTCallisto</title>
+<meta name="viewport-fit-sides" content="cover">
+<meta name="description" content="LTCallisto | Shogo, Blood II and No One Lives Forever 2 On Modern Platforms. Download the latest build for Windows or Linux.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+
+:root {
+  --ground: #0b0b13;      /* Page, the logo's black facets lifted a step */
+  --slab: #15152a;        /* Raised surfaces */
+  --slab-edge: #2c2b4a;   /* Bevel edges and rules */
+  --slate: #5d5b86;       /* The logo's mid tone */
+  --lit: #b3b2cf;         /* The logo's highlight, used for the one lit object */
+  --ink: #e6e5f2;         /* Body text */
+  --ink-dim: #9997b6;     /* Secondary text */
+  --ready: #8fd3a8;       /* Status: supported */
+  --font-display: "Chakra Petch", "Bahnschrift", "DIN Alternate", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --chamfer: 14px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--ground); }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 16px/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+a { color: var(--lit); text-underline-offset: 3px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--lit); outline-offset: 3px; }
+code, .mono { font-family: var(--font-mono); font-size: 0.875em; }
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  background:
+    radial-gradient(ellipse 70% 90% at 28% 0%, rgba(179, 178, 207, 0.20), transparent 60%),
+    linear-gradient(180deg, #1b1a33 0%, var(--ground) 100%);
+  border-bottom: 1px solid var(--slab-edge);
+  overflow: hidden;
+}
+.hero .wrap {
+  padding-block: clamp(48px, 9vw, 96px) clamp(40px, 7vw, 72px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+.logo {
+  width: 163px;
+  height: 200px;
+  filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.75));
+}
+h1 {
+  font: 700 clamp(2.6rem, 7vw, 4.25rem)/1 var(--font-display);
+  letter-spacing: 0.02em;
+  margin: 8px 0 0;
+  text-wrap: balance;
+}
+.lede {
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  color: var(--ink);
+  max-width: 34em;
+  margin: 0;
+  text-wrap: balance;
+}
+.lede-sub { color: var(--ink-dim); margin: -8px 0 0; max-width: 40em; }
+
+.download { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 12px; width: 100%; }
+.btn {
+  --cut: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 14px 30px;
+  max-width: 100%;
+  font: 600 1.125rem/1.2 var(--font-display);
+  letter-spacing: 0.03em;
+  color: #0b0b13;
+  text-decoration: none;
+  background: linear-gradient(160deg, #d6d5ea 0%, var(--lit) 38%, #7a789f 100%);
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.btn:hover { color: #0b0b13; filter: brightness(1.08); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn svg { flex: none; }
+.btn[aria-disabled="true"] {
+  background: var(--slab);
+  color: var(--ink-dim);
+  box-shadow: inset 0 0 0 1px var(--slab-edge);
+  cursor: default;
+  transform: none;
+  filter: none;
+}
+.release-meta {
+  font: 400 0.875rem/1.5 var(--font-mono);
+  color: var(--ink-dim);
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 14px;
+}
+.release-meta span { white-space: nowrap; }
+
+details.all {
+  width: min(560px, 100%);
+  text-align: left;
+}
+details.all summary {
+  cursor: pointer;
+  color: var(--lit);
+  font-size: 0.9375rem;
+  text-align: center;
+  list-style: none;
+}
+details.all summary::-webkit-details-marker { display: none; }
+details.all summary::after { content: " \25BE"; }
+details.all[open] summary::after { content: " \25B4"; }
+.builds {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--slab-edge);
+  background: rgba(21, 21, 42, 0.7);
+}
+.builds li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 16px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--slab-edge);
+}
+.builds li:first-child { border-top: 0; }
+.builds .plat { font-weight: 500; }
+.builds .file { font: 400 0.8125rem/1.4 var(--font-mono); color: var(--ink-dim); overflow-wrap: anywhere; min-width: 0; }
+.builds .na { color: var(--ink-dim); font-size: 0.875rem; }
+.notes-link { display: block; text-align: center; margin-top: 10px; font-size: 0.875rem; }
+
+footer {
+  border-top: 1px solid var(--slab-edge);
+  padding-block: 32px 40px;
+  color: var(--ink-dim);
+  font-size: 0.875rem;
+}
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 32px; }
+footer p { margin: 0; max-width: 62ch; }
+footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="logo" src="ltcallisto.png" width="163" height="200" alt="LTCallistoLogo">
+    <h1>LTCallisto</h1>
+    <p class="lede">A modernized, all-in-one version of the Lithtech&nbsp;Jupiter engine focused on backward compatibility.</p>
+    <p class="lede-sub">Currently supports Shogo, Blood II, and No One Lives Forever&nbsp;2.</p>
+
+    <div class="download" id="download">
+      <a class="btn" id="dl-btn" href="https://github.com/branung/LTCallisto/releases/latest" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="M9 2h2v9.2l3.3-3.3 1.4 1.4L10 15 4.3 9.3l1.4-1.4L9 11.2V2zM3 16h14v2H3z"/></svg>
+        <span id="dl-label">Download LTCallisto</span>
+      </a>
+      <p class="release-meta" id="dl-meta"><span>Finding the latest release&hellip;</span></p>
+
+      <details class="all" id="all-builds">
+        <summary>All downloads</summary>
+        <ul class="builds" id="builds-list">
+          <li><span class="plat">Windows 64-bit</span><span class="file">LTCallisto-win64_v&hellip;.zip</span></li>
+          <li><span class="plat">Linux x86-64</span><span class="file">LTCallisto-linux64_v&hellip;.tar.gz</span></li>
+        </ul>
+        <a class="notes-link" id="notes-link" href="https://github.com/branung/LTCallisto/releases" rel="noopener">Release notes and earlier builds</a>
+      </details>
+    </div>
+  </div>
+</header>
+
+<footer>
+  <div class="wrap">
+    <p>LTCallisto is built on the source release of the LithTech Jupiter engine. Shogo, Blood&nbsp;II and No One Lives Forever&nbsp;2 belong to their owners. No game data is included.</p>
+    <nav aria-label="Project links">
+      <a href="https://github.com/branung/LTCallisto" rel="noopener">Source</a>
+      <a href="https://github.com/branung/LTCallisto/releases" rel="noopener">Releases</a>
+      <a href="https://github.com/branung/LTCallisto/issues" rel="noopener">Report a problem</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Releases come from this repository. Assets are named the way the launcher's updater expects them:
+  // LTCallisto-<arch>_v<stamp>.zip (Windows) or .tar.gz (Linux).
+  var REPO = 'branung/LTCallisto';
+  var RELEASES = 'https://github.com/' + REPO + '/releases';
+  var BUILDS = [
+    { arch: 'win64', label: 'Windows 64-bit', ext: '.zip' },
+    { arch: 'linux64', label: 'Linux x86-64', ext: '.tar.gz' }
+  ];
+
+  var btn = document.getElementById('dl-btn');
+  var label = document.getElementById('dl-label');
+  var meta = document.getElementById('dl-meta');
+  var list = document.getElementById('builds-list');
+  var notes = document.getElementById('notes-link');
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  // Which build this visitor wants: 'win64', 'linux64', or an unsupported platform ('mac', 'mobile').
+  function detect() {
+    var ua = navigator.userAgent || '';
+    var plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+    if (/Android|iPhone|iPad|iPod/i.test(ua) || (/Mac/i.test(plat) && navigator.maxTouchPoints > 1)) return Promise.resolve('mobile');
+    if (/Mac/i.test(plat) || /Mac OS X/i.test(ua)) return Promise.resolve('mac');
+    if (/Win/i.test(plat) || /Windows/i.test(ua)) {
+      var guess = /Win64|WOW64|x64/i.test(ua) ? 'win64' : 'win32';
+      if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        return navigator.userAgentData.getHighEntropyValues(['bitness'])
+          .then(function (v) { return v.bitness === '32' ? 'win32' : v.bitness === '64' ? 'win64' : guess; })
+          .catch(function () { return guess; });
+      }
+      return Promise.resolve(guess);
+    }
+    if (/Linux|X11|CrOS/i.test(plat + ' ' + ua)) return Promise.resolve('linux64');
+    return Promise.resolve('unknown');
+  }
+
+  function findAsset(release, build) {
+    var prefix = 'ltcallisto-' + build.arch + '_';
+    var assets = release.assets || [];
+    for (var i = 0; i < assets.length; i++) {
+      var n = String(assets[i].name || '').toLowerCase();
+      if (n.indexOf(prefix) === 0 && n.slice(-build.ext.length) === build.ext) return assets[i];
+    }
+    return null;
+  }
+
+  function size(bytes) {
+    return bytes >= 1048576 ? (bytes / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(bytes / 1024)) + ' KB';
+  }
+
+  function date(iso) {
+    var d = new Date(iso);
+    return isNaN(d) ? '' : d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function setMeta(parts) {
+    meta.textContent = '';
+    parts.forEach(function (p) { if (p) meta.appendChild(el('span', null, p)); });
+  }
+
+  function disable(text, why) {
+    btn.setAttribute('aria-disabled', 'true');
+    btn.removeAttribute('href');
+    label.textContent = text;
+    setMeta([why]);
+    document.getElementById('all-builds').open = true;
+  }
+
+  function fillList(release) {
+    list.textContent = '';
+    BUILDS.forEach(function (b) {
+      var li = el('li');
+      var a = release && findAsset(release, b);
+      li.appendChild(el('span', 'plat', b.label));
+      if (a) {
+        var link = el('a', 'file', a.name);
+        link.href = a.browser_download_url;
+        link.title = size(a.size);
+        li.appendChild(link);
+      } else {
+        li.appendChild(el('span', 'na', release ? 'Not in this release' : 'See Releases'));
+      }
+      list.appendChild(li);
+    });
+  }
+
+  var wantP = detect();
+  var releaseP = fetch('https://api.github.com/repos/' + REPO + '/releases/latest', {
+    headers: { Accept: 'application/vnd.github+json' }
+  }).then(function (r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  });
+
+  Promise.all([wantP, releaseP.catch(function () { return null; })]).then(function (res) {
+    var want = res[0], release = res[1];
+    var build = BUILDS.filter(function (b) { return b.arch === want; })[0];
+
+    if (release) {
+      fillList(release);
+      if (release.html_url) notes.href = release.html_url;
+    }
+
+    if (want === 'mac') return disable('Not available for macOS yet', 'LTCallisto runs on Windows and Linux. All downloads are listed below.');
+    if (want === 'mobile') return disable('Not available on phones or tablets', 'LTCallisto runs on Windows and Linux PCs.');
+
+    if (!release) {
+      // The GitHub API is unreachable or rate-limited: send them to the releases page.
+      fillList(null);
+      label.textContent = 'Download from GitHub Releases';
+      btn.href = RELEASES + '/latest';
+      setMeta(['Windows 64-bit and Linux x86-64 builds']);
+      return;
+    }
+
+    var asset = build && findAsset(release, build);
+    if (!asset) {
+      label.textContent = 'See all downloads';
+      btn.href = release.html_url || RELEASES + '/latest';
+      setMeta([release.tag_name, build ? 'No ' + build.label + ' build in this release' : 'Choose your platform below']);
+      return;
+    }
+
+    btn.href = asset.browser_download_url;
+    label.textContent = 'Download for ' + build.label;
+    setMeta([release.tag_name, size(asset.size), date(release.published_at)]);
+  });
+})();
+</script>
+</body>
+</html>
